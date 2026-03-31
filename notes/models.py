@@ -9,7 +9,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 class Note(models.Model):
-    
+ 
     title = models.CharField(max_length=200)
     content = models.TextField(blank=True)
     is_favorite = models.BooleanField(default=False)

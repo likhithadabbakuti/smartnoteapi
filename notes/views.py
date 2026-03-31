@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Note, Tag
 from .serializers import NoteSerializer, TagSerializer
 from .permissions import IsOwner
