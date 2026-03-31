@@ -90,42 +90,79 @@ Supported query params:
 
 ## Example Requests
 
-Register:
+Use Postman and create requests like below.
 
-```bash
-curl -X POST http://127.0.0.1:8000/api/auth/register/ \
-  -H "Content-Type: application/json" \
-  -d "{\"username\":\"alice\",\"password\":\"secret123\"}"
+1. Register user
+- Method: `POST`
+- URL: `http://127.0.0.1:8000/api/auth/register/`
+- Headers: `Content-Type: application/json`
+- Body (raw JSON):
+
+```json
+{
+  "username": "alice",
+  "password": "secret123"
+}
 ```
 
-Login:
+2. Login (get access and refresh token)
+- Method: `POST`
+- URL: `http://127.0.0.1:8000/api/auth/login/`
+- Headers: `Content-Type: application/json`
+- Body (raw JSON):
 
-```bash
-curl -X POST http://127.0.0.1:8000/api/auth/login/ \
-  -H "Content-Type: application/json" \
-  -d "{\"username\":\"alice\",\"password\":\"secret123\"}"
+```json
+{
+  "username": "alice",
+  "password": "secret123"
+}
 ```
 
-Create a tag:
+3. Refresh access token
+- Method: `POST`
+- URL: `http://127.0.0.1:8000/api/auth/refresh/`
+- Headers: `Content-Type: application/json`
+- Body (raw JSON):
 
-```bash
-curl -X POST http://127.0.0.1:8000/api/tags/ \
-  -H "Authorization: Bearer <access_token>" \
-  -H "Content-Type: application/json" \
-  -d "{\"name\":\"work\"}"
+```json
+{
+  "refresh": "<refresh_token>"
+}
 ```
 
-Create a note with tags:
+4. Create a tag
+- Method: `POST`
+- URL: `http://127.0.0.1:8000/api/tags/`
+- Headers:
+  `Authorization: Bearer <access_token>`
+  `Content-Type: application/json`
+- Body (raw JSON):
 
-```bash
-curl -X POST http://127.0.0.1:8000/api/notes/ \
-  -H "Authorization: Bearer <access_token>" \
-  -H "Content-Type: application/json" \
-  -d "{\"title\":\"Plan\",\"content\":\"Sprint tasks\",\"tag_ids\":[1]}"
+```json
+{
+  "name": "work"
+}
 ```
 
-## Running Tests
+5. Create a note with tags
+- Method: `POST`
+- URL: `http://127.0.0.1:8000/api/notes/`
+- Headers:
+  `Authorization: Bearer <access_token>`
+  `Content-Type: application/json`
+- Body (raw JSON):
 
-```bash
-python manage.py test
+```json
+{
+  "title": "Plan",
+  "content": "Sprint tasks",
+  "tag_ids": [1]
+}
 ```
+
+6. Search and order notes
+- Method: `GET`
+- URL example: `http://127.0.0.1:8000/api/notes/?search=plan&ordering=-created_at`
+- Headers: `Authorization: Bearer <access_token>`
+
+
