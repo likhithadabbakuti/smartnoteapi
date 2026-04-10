@@ -1,5 +1,5 @@
 from .models import Note, Tag
-from .serializers import NoteSerializer, TagSerializer
+from .serializers import NoteSerializer, TagSerializer, RegisterSerializer
 from .permissions import IsOwner
 from rest_framework.decorators import action #to create a custom action for marking a note as favorite
 from rest_framework.response import Response
@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend #to enable filtering in the viewset
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
+from rest_framework import status
 # Create your views here.
 class NoteViewSet(ModelViewSet):
     queryset = Note.objects.all()
@@ -52,9 +52,8 @@ class TagViewSet(ModelViewSet):
 
 class RegisterView(APIView):
     def post(self, request):
-        user=User.objects.create_user(
-            username=request.data.get('username'),
-            password=request.data.get('password')
-        )
-        return Response({'status': 'user created'})
+        serializer = RegisterSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'status': 'user created'}, status=status.HTTP_201_CREATED)
         

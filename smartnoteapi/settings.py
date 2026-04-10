@@ -56,6 +56,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'EXCEPTION_HANDLER': 'notes.exceptions.custom_exception_handler',
 }
 
 MIDDLEWARE = [
