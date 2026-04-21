@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 class AuthTests(APITestCase):
     def test_register_success(self):
         response = self.client.post(
-            "/api/auth/register/",
+            "/api/v1/auth/register/",
             {"username": "newuser", "password": "StrongPass123!"},
             format="json",
         )
@@ -19,7 +19,7 @@ class AuthTests(APITestCase):
         User.objects.create_user(username="existing", password="StrongPass123!")
 
         response = self.client.post(
-            "/api/auth/register/",
+            "/api/v1/auth/register/",
             {"username": "existing", "password": "StrongPass123!"},
             format="json",
         )
@@ -33,7 +33,7 @@ class AuthTests(APITestCase):
         User.objects.create_user(username="alice", password="StrongPass123!")
 
         response = self.client.post(
-            "/api/auth/login/",
+            "/api/v1/auth/login/",
             {"username": "alice", "password": "StrongPass123!"},
             format="json",
         )
@@ -44,7 +44,7 @@ class AuthTests(APITestCase):
 
     def test_register_weak_password_returns_validation_error(self):
         response = self.client.post(
-            "/api/auth/register/",
+            "/api/v1/auth/register/",
             {"username": "weakuser", "password": "12345678"},
             format="json",
         )

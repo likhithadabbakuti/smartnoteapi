@@ -22,12 +22,12 @@ from notes.views import RegisterView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/', include('notes.urls')),
+    path('api/v1/', include('notes.urls')),
     #to include the URLs from the notes app
 
-    path('api/auth/register/', RegisterView.as_view()),
-    path('api/auth/login/',TokenObtainPairView.as_view()),
+    path('api/v1/auth/register/', RegisterView.as_view()),
+    path('api/v1/auth/login/',TokenObtainPairView.as_view()),
     #to include the URLs for the browsable API login and logout views
-    path('api/auth/refresh/',TokenRefreshView.as_view()),
+    path('api/v1/auth/refresh/',TokenRefreshView.as_view()),
     
 ]

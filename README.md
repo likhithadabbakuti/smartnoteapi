@@ -51,9 +51,9 @@ The API will be available at `http://127.0.0.1:8000/`.
 
 ## Authentication Flow
 
-1. Register a user: `POST /api/auth/register/`
-2. Login to get tokens: `POST /api/auth/login/`
-3. Refresh access token: `POST /api/auth/refresh/`
+1. Register a user: `POST /api/v1/auth/register/`
+2. Login to get tokens: `POST /api/v1/auth/login/`
+3. Refresh access token: `POST /api/v1/auth/refresh/`
 4. Send access token in headers:
 
 ```http
@@ -64,19 +64,19 @@ Authorization: Bearer <access_token>
 
 ### Auth
 
-- `POST /api/auth/register/`
-- `POST /api/auth/login/`
-- `POST /api/auth/refresh/`
+- `POST /api/v1/auth/register/`
+- `POST /api/v1/auth/login/`
+- `POST /api/v1/auth/refresh/`
 
 ### Notes
 
-- `GET /api/notes/`
-- `POST /api/notes/`
-- `GET /api/notes/{id}/`
-- `PUT /api/notes/{id}/`
-- `PATCH /api/notes/{id}/`
-- `DELETE /api/notes/{id}/`
-- `PATCH /api/notes/{id}/favorite/` (toggle favorite status)
+- `GET /api/v1/notes/`
+- `POST /api/v1/notes/`
+- `GET /api/v1/notes/{id}/`
+- `PUT /api/v1/notes/{id}/`
+- `PATCH /api/v1/notes/{id}/`
+- `DELETE /api/v1/notes/{id}/`
+- `PATCH /api/v1/notes/{id}/favorite/` (toggle favorite status)
 
 Supported query params:
 
@@ -87,12 +87,12 @@ Supported query params:
 
 ### Tags
 
-- `GET /api/tags/`
-- `POST /api/tags/`
-- `GET /api/tags/{id}/`
-- `PUT /api/tags/{id}/`
-- `PATCH /api/tags/{id}/`
-- `DELETE /api/tags/{id}/`
+- `GET /api/v1/tags/`
+- `POST /api/v1/tags/`
+- `GET /api/v1/tags/{id}/`
+- `PUT /api/v1/tags/{id}/`
+- `PATCH /api/v1/tags/{id}/`
+- `DELETE /api/v1/tags/{id}/`
 
 ## Example Requests
 
@@ -100,7 +100,7 @@ Use Postman and create requests like below.
 
 1. Register user
 - Method: `POST`
-- URL: `http://127.0.0.1:8000/api/auth/register/`
+- URL: `http://127.0.0.1:8000/api/v1/auth/register/`
 - Headers: `Content-Type: application/json`
 - Body (raw JSON):
 
@@ -113,7 +113,7 @@ Use Postman and create requests like below.
 
 2. Login (get access and refresh token)
 - Method: `POST`
-- URL: `http://127.0.0.1:8000/api/auth/login/`
+- URL: `http://127.0.0.1:8000/api/v1/auth/login/`
 - Headers: `Content-Type: application/json`
 - Body (raw JSON):
 
@@ -126,7 +126,7 @@ Use Postman and create requests like below.
 
 3. Refresh access token
 - Method: `POST`
-- URL: `http://127.0.0.1:8000/api/auth/refresh/`
+- URL: `http://127.0.0.1:8000/api/v1/auth/refresh/`
 - Headers: `Content-Type: application/json`
 - Body (raw JSON):
 
@@ -138,7 +138,7 @@ Use Postman and create requests like below.
 
 4. Create a tag
 - Method: `POST`
-- URL: `http://127.0.0.1:8000/api/tags/`
+- URL: `http://127.0.0.1:8000/api/v1/tags/`
 - Headers:
   `Authorization: Bearer <access_token>`
   `Content-Type: application/json`
@@ -152,7 +152,7 @@ Use Postman and create requests like below.
 
 5. Create a note with tags
 - Method: `POST`
-- URL: `http://127.0.0.1:8000/api/notes/`
+- URL: `http://127.0.0.1:8000/api/v1/notes/`
 - Headers:
   `Authorization: Bearer <access_token>`
   `Content-Type: application/json`
@@ -168,6 +168,6 @@ Use Postman and create requests like below.
 
 6. Search and order notes
 - Method: `GET`
-- URL example: `http://127.0.0.1:8000/api/notes/?search=plan&ordering=-created_at`
+- URL example: `http://127.0.0.1:8000/api/v1/notes/?search=plan&ordering=-created_at`
 - Headers: `Authorization: Bearer <access_token>`
 
