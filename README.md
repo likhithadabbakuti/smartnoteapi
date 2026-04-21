@@ -43,6 +43,12 @@ python manage.py runserver
 
 The API will be available at `http://127.0.0.1:8000/`.
 
+## Database Modes
+
+- Default local mode: SQLite file `db.sqlite3` (no extra config needed).
+- MySQL mode: set `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT` in `.env`.
+- Mock DB mode (in-memory SQLite): set `USE_MOCK_DB=true` in `.env`.
+
 ## Authentication Flow
 
 1. Register a user: `POST /api/auth/register/`
@@ -164,5 +170,4 @@ Use Postman and create requests like below.
 - Method: `GET`
 - URL example: `http://127.0.0.1:8000/api/notes/?search=plan&ordering=-created_at`
 - Headers: `Authorization: Bearer <access_token>`
-
 
