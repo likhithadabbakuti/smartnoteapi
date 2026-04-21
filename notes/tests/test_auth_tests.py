@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.test import override_settings
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -13,7 +14,8 @@ class AuthTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data["status"], "user created")
-        self.assertTrue(User.objects.filter(username="newuser").exists())
+        user = User.objects.get(username="newuser")
+        self.assertFalse(user.is_staff)
 
     def test_register_duplicate_username_returns_error_shape(self):
         User.objects.create_user(username="existing", password="StrongPass123!")
@@ -52,3 +54,36 @@ class AuthTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["success"], False)
         self.assertIn("password", response.data["errors"])
+
+    def test_register_staff_without_valid_key_is_rejected(self):
+        response = self.client.post(
+            "/api/v1/auth/register/",
+            {
+                "username": "staffcandidate",
+                "password": "StrongPass123!",
+                "role": "staff",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["success"], False)
+        self.assertIn("role", response.data["errors"])
+        self.assertFalse(User.objects.filter(username="staffcandidate").exists())
+
+    @override_settings(STAFF_REGISTRATION_KEY="let-me-in")
+    def test_register_staff_with_valid_key_creates_staff_user(self):
+        response = self.client.post(
+            "/api/v1/auth/register/",
+            {
+                "username": "staffuser",
+                "password": "StrongPass123!",
+                "role": "staff",
+                "staff_registration_key": "let-me-in",
+            },
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        user = User.objects.get(username="staffuser")
+        self.assertTrue(user.is_staff)

@@ -60,6 +60,68 @@ The API will be available at `http://127.0.0.1:8000/`.
 Authorization: Bearer <access_token>
 ```
 
+Registration role behavior:
+- Default role is `user`.
+- To create a `staff` user, pass `"role": "staff"` and `"staff_registration_key": "<key>"`.
+- Configure the key in environment as `STAFF_REGISTRATION_KEY`.
+
+### staff_registration_key Guide
+
+What it is:
+- `staff_registration_key` is a private secret you create.
+- Django does not generate it automatically.
+- It is checked only when someone tries to register with `role = "staff"`.
+
+When to use it:
+- Use it only for creating trusted `staff` accounts.
+- Do not use it for normal user signup.
+
+How to create it (PowerShell):
+
+```powershell
+python -c "import secrets; print(secrets.token_urlsafe(32))"
+```
+
+How to configure it:
+1. Copy the generated secret.
+2. Add it to `.env`:
+
+```env
+STAFF_REGISTRATION_KEY=your_generated_secret_here
+```
+
+3. Restart the Django server.
+
+How to call register API:
+- Normal user (no role provided, defaults to `user`):
+
+```json
+{
+  "username": "alice",
+  "password": "StrongPass123!"
+}
+```
+
+- Staff user (requires valid key):
+
+```json
+{
+  "username": "bob",
+  "password": "StrongPass123!",
+  "role": "staff",
+  "staff_registration_key": "your_generated_secret_here"
+}
+```
+
+Expected behavior:
+- If `role` is missing, account is created with `is_staff = false`.
+- If `role = "staff"` and key is valid, account is created with `is_staff = true`.
+- If key is missing or invalid, registration fails with validation error.
+
+Security notes:
+- Keep this key private and never expose it in client-side code.
+- Rotate it immediately if it is leaked.
+
 ## API Endpoints
 
 ### Auth
