@@ -43,6 +43,29 @@ python manage.py runserver
 
 The API will be available at `http://127.0.0.1:8000/`.
 
+## Testing and Coverage
+
+Run tests:
+
+```bash
+python manage.py test
+```
+
+Run tests with coverage and show percentage:
+
+```bash
+coverage run manage.py test
+coverage report
+```
+
+Generate HTML coverage report:
+
+```bash
+coverage html
+```
+
+Open `htmlcov/index.html` in your browser to view the detailed report.
+
 ## Database Modes
 
 - Default local mode: SQLite file `db.sqlite3` (no extra config needed).
