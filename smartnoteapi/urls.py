@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from notes.views import RegisterView
+from notes.views import RegisterView, UserProfileView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +29,7 @@ urlpatterns = [
     path('api/v1/auth/login/',TokenObtainPairView.as_view()),
     #to include the URLs for the browsable API login and logout views
     path('api/v1/auth/refresh/',TokenRefreshView.as_view()),
+    path('api/v1/auth/me/', UserProfileView.as_view()),
+    path('api/auth/me/', UserProfileView.as_view()),
     
 ]

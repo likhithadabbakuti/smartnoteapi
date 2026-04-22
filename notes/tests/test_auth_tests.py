@@ -87,3 +87,33 @@ class AuthTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         user = User.objects.get(username="staffuser")
         self.assertTrue(user.is_staff)
+
+    def test_me_requires_authentication(self):
+        response = self.client.get("/api/v1/auth/me/")
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.data["success"], False)
+
+    def test_me_returns_role_user_for_normal_user(self):
+        user = User.objects.create_user(username="profileuser", password="StrongPass123!")
+        self.client.force_authenticate(user=user)
+
+        response = self.client.get("/api/v1/auth/me/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["username"], "profileuser")
+        self.assertEqual(response.data["role"], "user")
+        self.assertEqual(response.data["is_staff"], False)
+
+    def test_me_returns_role_staff_for_staff_user(self):
+        user = User.objects.create_user(
+            username="profilestaff", password="StrongPass123!", is_staff=True
+        )
+        self.client.force_authenticate(user=user)
+
+        response = self.client.get("/api/v1/auth/me/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["username"], "profilestaff")
+        self.assertEqual(response.data["role"], "staff")
+        self.assertEqual(response.data["is_staff"], True)

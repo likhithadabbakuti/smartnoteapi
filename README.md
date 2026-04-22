@@ -54,7 +54,8 @@ The API will be available at `http://127.0.0.1:8000/`.
 1. Register a user: `POST /api/v1/auth/register/`
 2. Login to get tokens: `POST /api/v1/auth/login/`
 3. Refresh access token: `POST /api/v1/auth/refresh/`
-4. Send access token in headers:
+4. Get current user profile: `GET /api/v1/auth/me/`
+5. Send access token in headers:
 
 ```http
 Authorization: Bearer <access_token>
@@ -129,6 +130,10 @@ Security notes:
 - `POST /api/v1/auth/register/`
 - `POST /api/v1/auth/login/`
 - `POST /api/v1/auth/refresh/`
+- `GET /api/v1/auth/me/`
+
+Compatibility alias:
+- `GET /api/auth/me/` also maps to the same profile endpoint.
 
 ### Notes
 
@@ -198,7 +203,22 @@ Use Postman and create requests like below.
 }
 ```
 
-4. Create a tag
+4. Get current user profile
+- Method: `GET`
+- URL: `http://127.0.0.1:8000/api/v1/auth/me/`
+- Headers: `Authorization: Bearer <access_token>`
+- Example response:
+
+```json
+{
+  "id": 1,
+  "username": "alice",
+  "role": "user",
+  "is_staff": false
+}
+```
+
+5. Create a tag
 - Method: `POST`
 - URL: `http://127.0.0.1:8000/api/v1/tags/`
 - Headers:
@@ -212,7 +232,7 @@ Use Postman and create requests like below.
 }
 ```
 
-5. Create a note with tags
+6. Create a note with tags
 - Method: `POST`
 - URL: `http://127.0.0.1:8000/api/v1/notes/`
 - Headers:
@@ -228,7 +248,7 @@ Use Postman and create requests like below.
 }
 ```
 
-6. Search and order notes
+7. Search and order notes
 - Method: `GET`
 - URL example: `http://127.0.0.1:8000/api/v1/notes/?search=plan&ordering=-created_at`
 - Headers: `Authorization: Bearer <access_token>`
